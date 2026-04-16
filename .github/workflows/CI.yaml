@@ -59,7 +59,7 @@ jobs:
         # conda setup requires this special shell
         shell: bash -l {0}
         run: |
-          pytest -v --cov=qs2_project --cov-report=xml --color=yes qs2_project/tests/
+          pytest -v --cov=qs2_project --cov-report=xml --color=yes tests/
 
       - name: CodeCov
         uses: codecov/codecov-action@v5
