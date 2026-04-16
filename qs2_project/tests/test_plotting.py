@@ -21,7 +21,7 @@ def test_plot_sample_signals(tmp_path):
     y = np.array([0]*5 + [1]*5)
     class_freqs = {0: 5, 1: 10}
 
-    viz.RESULTS_DIR = tmp_path  # redirect output
+    viz.RESULTS_DIR = tmp_path
 
     viz.plot_sample_signals(X, y, class_freqs, show=False)
 

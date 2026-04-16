@@ -26,6 +26,7 @@ dependencies = [
     "qiskit",
     "qiskit-aer",
     "scikit-learn",
+    "matplotlib",
 ]
 
 # Update the urls once the hosting is set up.
