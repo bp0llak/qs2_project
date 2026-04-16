@@ -64,6 +64,5 @@ jobs:
       - name: CodeCov
         uses: codecov/codecov-action@v5
         with:
-          files: ./coverage.xml
           flags: unittests
           name: codecov-${{ matrix.os }}-py${{ matrix.python-version }}
