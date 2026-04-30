@@ -14,8 +14,8 @@ from typing import Tuple
 N_SAMPLES: int = 8
 SAMPLE_RATE: float = 1.0
 CLASS_FREQUENCIES = {
-    0: 1,
-    1: 3,
+    0: 2.45,
+    1: 2.5,
 }
 
 

@@ -13,11 +13,11 @@ from typing import Dict, List, Optional
 RESULTS_DIR = Path(__file__).parent.parent / "results"
 RESULTS_DIR.mkdir(exist_ok=True)
 
-# Consistent colour palette across all plots
+# Consistent color palette across all plots
 PALETTE = {
     "time":    "#7f8c8d",
     "fft_mag": "#2980b9",
-    "fft_complex": "#1a6699",
+    "fft_complex": "#1da632",
     "quantum": "#8e44ad",
 }
 
@@ -149,23 +149,25 @@ def plot_accuracy_bar(
     accuracies = [r["accuracy"] for r in results]
     precisions = [r["precision"] for r in results]
 
-    colours = []
+    colors = []
     for r in results:
         if "quantum" in r["pipeline"]:
-            colours.append(PALETTE["quantum"])
+            colors.append(PALETTE["quantum"])
+        elif "fft_complex" in r["pipeline"]:
+            colors.append(PALETTE["fft_complex"])
         elif "fft" in r["pipeline"]:
-            colours.append(PALETTE["fft_mag"])
+            colors.append(PALETTE["fft_mag"])
         else:
-            colours.append(PALETTE["time"])
+            colors.append(PALETTE["time"])
 
     x = np.arange(len(labels))
     width = 0.35
 
     fig, ax = plt.subplots(figsize=(max(7, len(labels) * 2), 4.5))
     bars_acc = ax.bar(x - width / 2, accuracies, width, label="Accuracy",
-                      color=colours, alpha=0.9, edgecolor="white")
+                      color=colors, alpha=0.9, edgecolor="white")
     bars_prec = ax.bar(x + width / 2, precisions, width, label="Precision",
-                       color=colours, alpha=0.55, edgecolor="white", hatch="//")
+                       color=colors, alpha=0.55, edgecolor="white", hatch="//")
 
     ax.set_xticks(x)
     ax.set_xticklabels(labels, fontsize=10)
@@ -207,13 +209,14 @@ def plot_noise_sweep(
             next(r["accuracy"] for r in results_by_noise[n] if r["pipeline"] == pipeline)
             for n in noise_levels
         ]
-        colour = (PALETTE["quantum"] if "quantum" in pipeline
+        color = (PALETTE["quantum"] if "quantum" in pipeline
+                  else PALETTE["fft_complex"] if "fft_complex" in pipeline
                   else PALETTE["fft_mag"] if "fft" in pipeline
                   else PALETTE["time"])
-        ax.plot(noise_levels, accs, marker="o", lw=2, color=colour,
+        ax.plot(noise_levels, accs, marker="o", lw=2, color=color,
                 label=pipeline.replace("_", " "))
 
-    ax.set_xlabel("Noise std (σ)", fontsize=12)
+    ax.set_xlabel("Noise std", fontsize=12)
     ax.set_ylabel("Accuracy", fontsize=12)
     ax.yaxis.set_major_formatter(mticker.PercentFormatter(xmax=1))
     ax.set_title("Accuracy vs. Signal Noise Level", fontsize=13, fontweight="bold")
